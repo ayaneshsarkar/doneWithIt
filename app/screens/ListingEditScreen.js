@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
+import useLocation from '../hooks/useLocation';
 import {
   AppForm,
   AppFormField as FormField,
@@ -24,6 +25,8 @@ const categories = [
 ];
 
 const ListingEditScreen = ({ navigation }) => {
+  const location = useLocation()
+
   return (
     <Screen style={styles.container}>
       <AppForm
@@ -35,7 +38,7 @@ const ListingEditScreen = ({ navigation }) => {
           images: []
         }}
         onSubmit={(values) => {
-          console.log(values)
+          console.log(location)
           navigation.navigate('ListingDetail')
         }}
         validationSchema={validationSchema}

@@ -13,7 +13,7 @@ const AccountScreen = ({ navigation }) => {
         name: 'format-list-bulleted',
         backgroundColor: colors.primary,
       },
-      onPress: () => navigation.push('Listings')
+      onPress: () => navigation.navigate('Listings')
     },
     {
       title: 'My Messages',
@@ -21,7 +21,7 @@ const AccountScreen = ({ navigation }) => {
         name: 'email',
         backgroundColor: colors.secondary,
       },
-      onPress: () => navigation.push('Messages')
+      onPress: () => navigation.navigate('Messages')
     },
   ];
   

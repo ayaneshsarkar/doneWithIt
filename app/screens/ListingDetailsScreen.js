@@ -1,24 +1,31 @@
-import { StyleSheet, TouchableWithoutFeedback, View, Image } from 'react-native';
+import {
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  Image,
+} from 'react-native';
 import React from 'react';
 import AppText from '../components/AppText';
 import colors from '../config/colors';
 import ListItem from '../components/ListItem';
 
-const ListingDetailsScreen = ({ navigation }) => {
+const ListingDetailsScreen = ({ route }) => {
+  const listing = route.params;
+
   return (
     <View>
-      <TouchableWithoutFeedback onPress={() => navigation.push('ListingEdit')}>
-        <Image style={styles.image} source={require('../assets/jacket.jpg')} />
+      <TouchableWithoutFeedback onPress={() => {}}>
+        <Image style={styles.image} source={listing.image} />
       </TouchableWithoutFeedback>
       <View style={styles.detailsContainer}>
-        <AppText style={styles.title}>Red Jacket for sale</AppText>
-        <AppText style={styles.price}>$100</AppText>
+        <AppText style={styles.title}>{listing.title}</AppText>
+        <AppText style={styles.price}>${listing.price}</AppText>
         <View style={styles.userContainer}>
           <ListItem
             image={require('../assets/ayanesh.jpg')}
             title='Ayanesh Sarkar'
             subTitle='7 Listings'
-            onPress={() => navigation.push('Account')}
+            onPress={() => {}}
           />
         </View>
       </View>
@@ -45,8 +52,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   userContainer: {
-    marginVertical: 40
-  }
+    marginVertical: 40,
+  },
 });
 
 export default ListingDetailsScreen;

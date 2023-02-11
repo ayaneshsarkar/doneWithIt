@@ -7,12 +7,10 @@ const FormImagePicker = ({ name }) => {
   const imageUris = values[name]
 
   const handleAdd = uri => {
-    console.log(uri)
     setFieldValue(name, [...imageUris, uri])
   }
 
   const handleRemove = uri => {
-    console.log(uri, imageUris.filter(imageUri => imageUri !== uri))
     setFieldValue(name, imageUris.filter(imageUri => imageUri !== uri))
   }
 
