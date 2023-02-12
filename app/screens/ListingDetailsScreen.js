@@ -1,21 +1,16 @@
-import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-  Image,
-} from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View, Image } from 'react-native';
 import React from 'react';
 import AppText from '../components/AppText';
 import colors from '../config/colors';
 import ListItem from '../components/ListItem';
 
 const ListingDetailsScreen = ({ route }) => {
-  const listing = route.params;
+  const listing = route.params
 
   return (
     <View>
       <TouchableWithoutFeedback onPress={() => {}}>
-        <Image style={styles.image} source={listing.image} />
+        <Image style={styles.image} source={{ uri: listing.images[0].url }} />
       </TouchableWithoutFeedback>
       <View style={styles.detailsContainer}>
         <AppText style={styles.title}>{listing.title}</AppText>
@@ -52,8 +47,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   userContainer: {
-    marginVertical: 40,
-  },
+    marginVertical: 40
+  }
 });
 
 export default ListingDetailsScreen;
