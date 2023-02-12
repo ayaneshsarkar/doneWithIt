@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
 import useLocation from '../hooks/useLocation';
@@ -8,6 +9,7 @@ import {
   SubmitButton,
   FormImagePicker
 } from '../components/forms';
+import UploadScreen from './UploadScreen';
 import Screen from '../components/Screen';
 import listingsAPI from '../services/listings'
 
@@ -26,22 +28,31 @@ const categories = [
 ];
 
 const ListingEditScreen = ({ navigation }) => {
+  const [uploadVisible, setUploadVisible] = useState(false)
+  const [progress, setProgress] = useState(0)
+
   const location = useLocation()
 
-  const handleSubmit = async listing => {
+  const handleSubmit = async (listing, { resetForm }) => {
+    setProgress(0)
+    setUploadVisible(true)
     const result = await listingsAPI.addListing({ ...listing, location }, (progress) => {
-      console.log(progress)
+      setProgress(progress)
     })
+    setUploadVisible(false)
     if (!result.ok) {
       console.log(result.data, listing)
       return alert('Could not save listing.')
     }
 
     alert('Success')
+
+    resetForm()
   }
 
   return (
     <Screen style={styles.container}>
+      <UploadScreen visible={uploadVisible} progress={progress} />
       <AppForm
         initialValues={{
           title: '',
