@@ -1,7 +1,11 @@
+import { useState, useContext } from 'react';
 import { StyleSheet, Image } from 'react-native';
 import * as Yup from 'yup';
+import jwtDecode from 'jwt-decode';
+import authApi from '../services/auth'
 import Screen from '../components/Screen';
-import { AppForm, AppFormField, SubmitButton } from '../components/forms'
+import { ErrorMessage, AppForm, AppFormField, SubmitButton } from '../components/forms'
+import AuthContext from '../auth/context';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('Email'),
@@ -9,15 +13,27 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginScreen = ({ navigation }) => {
+  const authContext = useContext(AuthContext)
+  const [loginFailed, setLoginFailed] = useState(false)
+
+  const handleSubmit = async ({ email, password }, { resetForm }) => {
+    const res = await authApi.login(email, password )
+    if (!res.ok) return setLoginFailed(true)
+    
+    setLoginFailed(false)
+    resetForm()
+
+    const user = jwtDecode(res.data)
+    authContext.setUser(user)
+  }
+
   return (
     <Screen style={styles.container}>
       <Image style={styles.logo} source={require('../assets/logo-red.png')} />
+      <ErrorMessage error="Invalid email and/or password." visible={loginFailed} />
       <AppForm
         initialValues={{ email: '', password: '' }}
-        onSubmit={(values) => {
-          console.log(values)
-          navigation.navigate('Listings')
-        }}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <AppFormField
