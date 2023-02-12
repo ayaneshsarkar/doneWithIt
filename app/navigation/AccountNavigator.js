@@ -6,7 +6,7 @@ import MessagesScreen from '../screens/MessagesScreen';
 const Stack = createNativeStackNavigator();
 
 const AccountNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen
       name='AccountPage'
       component={AccountScreen}
