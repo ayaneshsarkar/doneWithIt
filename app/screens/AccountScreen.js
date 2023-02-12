@@ -6,7 +6,7 @@ import Icon from '../components/Icon';
 import ListItemSeperator from '../components/ListItemSeperator';
 import colors from '../config/colors';
 import AuthContext from '../auth/context';
-import authStorage from '../services/auth';
+import authStorage from '../auth/storage';
 
 const AccountScreen = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext)
@@ -30,7 +30,7 @@ const AccountScreen = ({ navigation }) => {
     },
   ];
   
-  const handleLogout = async () => {
+  const handleLogout = () => {
     setUser(null)
     authStorage.removeToken()
   }
