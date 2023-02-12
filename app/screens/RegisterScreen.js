@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, ActivityIndicator } from 'react-native';
 import * as Yup from 'yup';
 import Screen from '../components/Screen';
-import userAPI from '../services/user'
-import authAPI from '../services/auth'
+import userAPI from '../services/user';
+import authAPI from '../services/auth';
 import useAuth from '../auth/useAuth';
-import { AppForm, AppFormField, SubmitButton, ErrorMessage } from '../components/forms'
+import useApi from '../hooks/useApi';
+import {
+  AppForm,
+  AppFormField,
+  SubmitButton,
+  ErrorMessage,
+} from '../components/forms';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label('name'),
@@ -14,28 +20,33 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterScreen = ({ navigation }) => {
-  const { logIn } = useAuth()
-  const [error, setError] = useState(null)
+  const registerAPI = useApi(userAPI.register);
+  const loginAPI = useApi(authAPI.login);
+
+  const { logIn } = useAuth();
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (userInfo, { resetForm }) => {
-    const res = await userAPI.register(userInfo)
+    const res = await registerAPI.request(userInfo);
 
     if (!res.ok) {
-      console.log('res', res.data.error)
-      if (res.data) setError(res.data.error) 
+      if (res.data) setError(res.data.error);
       else {
-        setError('An Unexpected error occured.')
-        console.log(res)
+        setError('An Unexpected error occured.');
+        console.log(res);
       }
-      return
+      return;
     }
 
-    const { data: authToken } = await authAPI.login(userInfo.email, userInfo.password)
-    logIn(authToken)
+    const { data: authToken } = await loginAPI.request(
+      userInfo.email,
+      userInfo.password
+    );
+    logIn(authToken);
 
-    setError(null)
-    resetForm()
-  }
+    setError(null);
+    resetForm();
+  };
 
   return (
     <Screen style={styles.container}>
@@ -73,6 +84,11 @@ const RegisterScreen = ({ navigation }) => {
           textContentType='password'
         />
         <SubmitButton title='Register' />
+        <ActivityIndicator
+          animating={registerAPI.loading}
+          size='large'
+          style={{ justifyContent: 'center', alignItems: 'center' }}
+        />
       </AppForm>
     </Screen>
   );
