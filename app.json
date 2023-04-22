@@ -33,7 +33,8 @@
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.ayaneshsarkar.DoneWithIt"
+      "package": "com.ayaneshsarkar.DoneWithIt",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
