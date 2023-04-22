@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import * as Yup from 'yup';
+import * as Notifications from 'expo-notifications'
 import useLocation from '../hooks/useLocation';
 import {
   AppForm,
@@ -46,6 +47,19 @@ const ListingEditScreen = ({ navigation }) => {
     }
 
     alert('Success')
+
+    try {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: 'Listing Added!',
+          body: 'Your listing was successfully added!',
+          data: { _displayInForeground: true }
+        },
+        trigger: { seconds: 1 }
+      })
+    } catch (err) {
+      console.log('err', err)
+    }
 
     resetForm()
   }

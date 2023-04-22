@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { navigationRef } from './app/navigation/rootNavigation';
 import * as SplashScreen from 'expo-splash-screen';
 import navigationTheme from './app/navigation/navigationTheme';
 import AuthNavigator from './app/navigation/AuthNavigator';
@@ -54,7 +55,7 @@ export default function App() {
     <AuthContext.Provider value={{ user, setUser }}>
       <View onLayout={onLayoutRootView} style={{ flex: 1 }}>
         <OfflineNotice />
-        <NavigationContainer theme={navigationTheme}>
+        <NavigationContainer ref={navigationRef} theme={navigationTheme}>
           {user ? <AppNavigator /> : <AuthNavigator />}
         </NavigationContainer>
       </View>

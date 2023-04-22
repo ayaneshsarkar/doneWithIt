@@ -85,7 +85,7 @@ const RegisterScreen = ({ navigation }) => {
         />
         <SubmitButton title='Register' />
         <ActivityIndicator
-          animating={registerAPI.loading}
+          animating={registerAPI.loading || loginAPI.loading}
           size='large'
           style={{ justifyContent: 'center', alignItems: 'center' }}
         />
